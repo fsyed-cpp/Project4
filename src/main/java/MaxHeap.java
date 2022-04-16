@@ -57,8 +57,7 @@ public final class MaxHeap<T extends Comparable <? super T>>
     } // end removeMax
 
     @Override
-    public T getMax()
-    {
+    public T getMax() {
         checkIntegrity();
         T root = null;
         if (!isEmpty())
@@ -92,8 +91,7 @@ public final class MaxHeap<T extends Comparable <? super T>>
      * throw an exception if the capacity exceed MAX_CAPACITY
      */
     private void checkCapacity (int capacity){
-        if (capacity > MAX_CAPACITY)
-        {
+        if (capacity > MAX_CAPACITY) {
             throw new IllegalStateException
                     ("Requested capacity exceeds maximum of " + MAX_CAPACITY + ".");
         }
@@ -122,8 +120,7 @@ public final class MaxHeap<T extends Comparable <? super T>>
                 largerChildIndex = rightChildIndex;
             } // end if
 
-            if (orphan.compareTo(heap[largerChildIndex]) < 0)
-            {
+            if (orphan.compareTo(heap[largerChildIndex]) < 0) {
                 heap[rootIndex] = heap[largerChildIndex];
                 rootIndex = largerChildIndex;
                 leftChildIndex = 2 * rootIndex;
@@ -132,5 +129,4 @@ public final class MaxHeap<T extends Comparable <? super T>>
                 done = true;
         } // end reheap
     }
-
 }
