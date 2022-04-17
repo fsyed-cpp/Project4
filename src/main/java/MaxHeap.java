@@ -8,6 +8,9 @@ public final class MaxHeap<T extends Comparable <? super T>>
     private static final int DEFAULT_CAPACITY = 100;
     private static final int MAX_CAPACITY = 10000;
 
+    public int numSwaps;
+    public int numSmartSwaps;
+
     public MaxHeap(){
         this (DEFAULT_CAPACITY); // Call next constructor
     } // end default constructor
@@ -27,6 +30,26 @@ public final class MaxHeap<T extends Comparable <? super T>>
         initialized = true;
     } // end constructor
 
+    /**
+     * Add Entries to the Max Heap using the "Smart" way
+     * @param entries The entries to be added
+     */
+    public MaxHeap(T[] entries) {
+        this(entries.length);
+        assert initialized = true;
+        lastIndex = entries.length;
+
+        // Copy given array into data field
+        for (int index = 0; index < entries.length; index++) {
+            heap[index + 1] = entries[index];
+        }
+
+        // Create heap
+        for (int rootIndex = lastIndex / 2; rootIndex > 0; rootIndex--) {
+            reheap(rootIndex);
+        }
+    }
+
     @Override
     public void add(T newEntry) {
         checkIntegrity();
@@ -36,6 +59,7 @@ public final class MaxHeap<T extends Comparable <? super T>>
             heap[newIndex] = heap[parentIndex];
             newIndex = parentIndex;
             parentIndex = newIndex / 2;
+            numSwaps++;
         } // end while
         heap[newIndex] = newEntry;
         lastIndex++;
@@ -116,7 +140,7 @@ public final class MaxHeap<T extends Comparable <? super T>>
             int largerChildIndex = leftChildIndex;  // assume larger
             int rightChildIndex = leftChildIndex + 1;
             if ( (rightChildIndex <= lastIndex) &&
-                heap[rightChildIndex].compareTo(heap[largerChildIndex]) > 0){
+                heap[rightChildIndex].compareTo(heap[largerChildIndex]) > 0) {
                 largerChildIndex = rightChildIndex;
             } // end if
 
@@ -124,9 +148,16 @@ public final class MaxHeap<T extends Comparable <? super T>>
                 heap[rootIndex] = heap[largerChildIndex];
                 rootIndex = largerChildIndex;
                 leftChildIndex = 2 * rootIndex;
+                numSmartSwaps++;
             }
             else
                 done = true;
         } // end reheap
+    }
+
+    public void printFirst10() {
+        for (int i = 1; i < 11; i++) {
+            System.out.print(heap[i] + " ");
+        }
     }
 }
